@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Selamat Ulang Tahun, Eq Khesya Amanda! 💖</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/canvas-confetti/1.6.0/confetti.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital@1&family=Quicksand:wght@400;600&family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+  <style>
+    body {
+      background: #FFF9F4;
+      font-family: 'Quicksand', sans-serif;
+      overflow-x: hidden;
+    }
+    .hero {
+      background: url('https://via.placeholder.com/1920x1080') no-repeat center/cover;
+      position: relative;
+      filter: brightness(0.8);
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(255, 209, 220, 0.5);
+    }
+    .petal {
+      position: absolute;
+      width: 15px;
+      height: 15px;
+      background: url('https://i.imgur.com/4rG0l.gif') no-repeat center/cover;
+      animation: float 6s infinite;
+    }
+    @keyframes float {
+      0% { transform: translateY(0); opacity: 1; }
+      100% { transform: translateY(-100vh); opacity: 0; }
+    }
+    .polaroid {
+      background: #FFF9F4;
+      padding: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      transform: rotate(-2deg);
+      transition: transform 0.3s;
+      position: relative;
+    }
+    .polaroid:hover {
+      transform: scale(1.05) rotate(0deg);
+    }
+    .polaroid .caption {
+      display: none;
+      position: absolute;
+      bottom: 20px;
+      background: rgba(255, 209, 220, 0.8);
+      color: #333;
+      padding: 5px;
+      border-radius: 3px;
+      font-family: 'Comic Neue', cursive;
+    }
+    .polaroid:hover .caption {
+      display: block;
+    }
+    .heart {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      background: url('https://i.imgur.com/4rG0l.gif') no-repeat center/cover;
+      animation: pulse 1.5s infinite;
+    }
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.2); }
+      100% { transform: scale(1); }
+    }
+    .dark-mode {
+      background: #2D3748;
+      color: #E2E8F0;
+    }
+    .dark-mode .hero::before {
+      background: rgba(74, 85, 104, 0.5);
+    }
+    .dark-mode .polaroid {
+      background: #E2E8F0;
+    }
+    .dark-mode .letter {
+      background: #4A5568;
+    }
+    .emoji:hover {
+      transform: scale(1.2);
+      cursor: pointer;
+    }
+    .mute-btn {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 50;
+    }
+  </style>
+</head>
+<body class="text-gray-800">
+  <!-- Mute Button -->
+  <button class="mute-btn bg-[#F5DEB3] text-white p-2 rounded-full hover:bg-[#FFD1DC]" onclick="toggleMute()">
+    <span class="mute-icon">🔊</span>
+  </button>
+
+  <!-- Hero Section -->
+  <section class="hero relative min-h-screen flex items-center justify-center text-center">
+    <div class="relative z-10">
+      <h1 class="text-4xl md:text-5xl font-bold text-[#F5DEB3]" style="font-family: 'Playfair Display', serif;">🎉 Selamat Ulang Tahun, Eq Khesya Amanda! 🎂</h1>
+      <p class="text-xl md:text-2xl text-gray-700 mt-2">30 Juni 2025 — Hari spesial untuk cewek paling luar biasa di dunia</p>
+      <button onclick="scrollToLetter()" class="mt-6 bg-[#F5DEB3] text-white py-3 px-6 rounded-lg hover:bg-[#FFD1DC] hover:text-gray-800 border-2 border-[#F5DEB3]">Klik untuk melihat kejutan ulang tahunmu! 🎈</button>
+      <div id="petals"></div>
+    </div>
+    <audio id="bg-music" autoplay loop class="hidden">
+      <source src="https://www.kozco.com/tech/piano2.wav" type="audio/wav">
+    </audio>
+  </section>
+
+  <!-- Love Letter -->
+  <section id="letter" class="letter py-16 px-4 md:px-20 bg-[#E8DAEF]/80">
+    <div class="max-w-3xl mx-auto text-center bg-[url('https://www.transparenttextures.com/patterns/paper.png')] p-8 rounded-lg shadow-lg">
+      <h2 class="text-3xl md:text-4xl font-bold text-[#FFD1DC] mb-6" style="font-family: 'Playfair Display', serif;">Surat untuk Eq</h2>
+      <p class="text-lg text-gray-700 leading-relaxed">
+        Eq...<br>
+        Kamu itu lucu banget, ngeselin, tapi juga bener-bener bikin aku bahagia setiap hari.<br>
+        Kadang kamu sedih tanpa alasan, atau senyum yang bikin aku lupa waktu. Kamu suka banget sama pempek, dan aku masih ingat gimana kamu ngakak parah karena aku salah paham soal lagu kesukaanmu. Tapi kamu tahu gak? Aku suka banget sama kamu, lebih dari apa pun.<br>
+        Kamu itu cukup, kamu sempurna di mataku. Kamu gak perlu berubah untuk aku, karena kamu adalah yang terbaik, apa adanya. Terima kasih sudah hadir dalam hidupku, dan semoga hari ini jadi hari yang penuh tawa dan cinta.<br>
+        Met ulang tahun, Sayang. Teruslah jadi kamu, karena itu yang aku suka 💖
+      </p>
+    </div>
+  </section>
+
+  <!-- Photo Gallery -->
+  <section class="py-20 px-10 md:px-30 bg-[#C1F5D9]/50">
+    <h2 class="text-3xl md:text-4xl font-bold text-[#FFD1DC] text-center mb-8" style="font-family: 'Playfair Display', serif;">Kenangan Kita yang Bikin Senyum</h2>
+    <div class="swiper max-w-5xl mx-auto">
+      <div class="swiper-wrapper">
+        <div class="swiper-slide polaroid relative">
+          <img src="IMG_20241107_182350.jpg" alt="Foto 1" class="w-full h-48 object-cover">
+          <span class="caption">Di sini aku pertama kali jatuh cinta ke kamu lagi.</span>
+        </div>
+        <div class="swiper-slide polaroid relative" style="transform: rotate(2deg);">
+          <img src="IMG_20241115_190421.jpg" alt="Foto 2" class="w-full h-48 object-cover">
+          <span class="caption">Senyum kamu itu bener-bener bikin aku lupa dunia.</span>
+        </div>
+        <div class="swiper-slide polaroid relative" style="transform: rotate(-3deg);">
+          <img src="IMG_20250613_180505.jpg" alt="Foto 3" class="w-full h-48 object-cover">
+          <span class="caption">Kamu senyum di sini, dan aku langsung naksir lagi.</span>
+        </div>
+      </div>
+      <div class="swiper-pagination"></div>
+    </div>
+  </section>
+
+  <!-- Video Message -->
+<section class="py-16 px-4 md:px-20 bg-[#FFE5B4]/50 text-center">
+  <h2 class="text-3xl md:text-4xl font-bold text-[#FFD1DC] mb-6" style="font-family: 'Playfair Display', serif;">Pesan dari Hatiku</h2>
+  <div class="max-w-3xl mx-auto">
+    <div class="relative w-full" style="padding-bottom: 56.25%;">
+      <iframe class="absolute top-0 left-0 w-full h-full rounded-lg" src="https://www.youtube.com/embed/d9_5lsCw9-E" title="Ucapan Ulang Tahun untuk Eq Khesya Amanda" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </div>
+    <p class="text-lg text-gray-700 mt-4">Dengar, kamu itu spesial banget buat aku. <span class="emoji">🥰</span></p>
+  </div>
+</section>
+
+  <!-- Quiz Mini Game -->
+  <section class="py-16 px-4 md:px-20 bg-[#E8DAEF]/50 text-center">
+    <h2 class="text-3xl md:text-4xl font-bold text-[#FFD1DC] mb-6" style="font-family: 'Playfair Display', serif;">Seberapa Sayang Kamu Sama Eq?</h2>
+    <div class="max-w-2xl mx-auto">
+      <p id="quiz-question" class="text-lg mb-4">Apa makanan favorit Eq?</p>
+      <div class="flex flex-col gap-2">
+        <button onclick="answerQuiz(0, 'a')" class="bg-[#FFD1DC] text-white py-2 px-4 rounded-lg hover:bg-[#F5DEB3]">Gacoan</button>
+        <button onclick="answerQuiz(0, 'b')" class="bg-[#FFD1DC] text-white py-2 px-4 rounded-lg hover:bg-[#F5DEB3]">Dandi Ganteng</button>
+        <button onclick="answerQuiz(0, 'c')" class="bg-[#FFD1DC] text-white py-2 px-4 rounded-lg hover:bg-[#F5DEB3]">Es Krim</button>
+      </div>
+      <p id="quiz-result" class="mt-4 text-lg"></p>
+      <img id="sticker" class="hidden mx-auto mt-4 w-24 h-24" src="https://via.placeholder.com/100" alt="Sticker Reward">
+    </div>
+  </section>
+
+  <!-- Birthday Surprise -->
+  <section class="py-16 px-4 md:px-20 bg-[#C1F5D9]/50 text-center">
+    <h2 class="text-3xl md:text-4xl font-bold text-[#FFD1DC] mb-6" style="font-family: 'Playfair Display', serif;">Hadiah Spesial untukmu</h2>
+    <p class="text-lg text-gray-700 mb-6 max-w-2xl mx-auto">Klik untuk melihat hadiah spesial dari aku 🎁</p>
+    <button onclick="showGift()" class="bg-[#F5DEB3] text-white py-3 px-6 rounded-lg hover:bg-[#FFD1DC] hover:text-gray-800 border-2 border-[#F5DEB3]">Klik untuk Buka Hadiah</button>
+    <div id="gift" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center">
+      <div class="bg-[#FFF9F4] p-8 rounded-lg max-w-md mx-auto text-center">
+        <h3 class="text-2xl font-bold text-[#FFD1DC] mb-4" style="font-family: 'Playfair Display', serif;">Hadiah untuk Eq</h3>
+        <img src="DSC04703-2.jpg" alt="Chibi Couple" class="mx-auto mb-4 w-32 h-32">
+        <p class="text-lg text-gray-700 mb-4">Surat cinta, gambar kita, dan ucapan spesial!</p>
+        <a href="https://drive.google.com/file/d/1_iifyElALj0RNh96sRAqK3hQijO5BBea/view?usp=drive_link" target="_blank" class="bg-[#F5DEB3] text-white py-2 px-4 rounded-lg hover:bg-[#FFD1DC] hover:text-gray-800">Lihat Surat Cinta</a>
+        <audio controls class="mt-4">
+          <source src="https://www.kozco.com/tech/piano2.wav" type="audio/wav">
+        </audio>
+        <button onclick="closeGift()" class="mt-4 bg-[#FFD1DC] text-white py-2 px-4 rounded-lg hover:bg-[#F5DEB3]">Tutup</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="py-8 text-center bg-[#FFE5B4]/50">
+    <p class="text-lg text-gray-700">
+      Website ini dibuat dengan cinta, tawa, dan sedikit air mata,<br>
+      untuk Eq Khesya Amanda, orang yang paling aku cintai. <span class="heart"></span>
+    </p>
+    <img src="IMG_20241115_190421.jpg" alt="Chibi Couple" class="mx-auto mt-4 w-24 h-24">
+  </footer>
+
+  <script>
+    // Floating petals
+    function createPetals() {
+      const petalsContainer = document.getElementById('petals');
+      for (let i = 0; i < 15; i++) {
+        const petal = document.createElement('div');
+        petal.className = 'petal';
+        petal.style.left = Math.random() * 100 + 'vw';
+        petal.style.animationDelay = Math.random() * 6 + 's';
+        petalsContainer.appendChild(petal);
+      }
+    }
+    createPetals();
+
+    // Swiper gallery
+    const swiper = new Swiper('.swiper', {
+      loop: true,
+      slidesPerView: 1,
+      spaceBetween: 10,
+      pagination: { el: '.swiper-pagination', clickable: true },
+      breakpoints: {
+        640: { slidesPerView: 2 },
+        1024: { slidesPerView: 3 },
+      },
+    });
+
+    // Scroll to letter
+    function scrollToLetter() {
+      document.getElementById('letter').scrollIntoView({ behavior: 'smooth' });
+      confetti({ particleCount: 100, spread: 70 });
+    }
+
+    // Quiz
+    const questions = [
+      { q: 'Apa makanan favorit Eq?', a: 'b', options: ['Sushi', 'Pempek', 'Es Krim'], correct: 'Yay! Kamu tahu Eq suka Pempek! 😋', wrong: 'Hihi, coba tanya Eq lagi deh! 😜' },
+      { q: 'Apa reaksi Eq kalau kamu telat bales pesan?', a: 'c', options: ['Marah', 'Cuek', 'Baper'], correct: 'Betul, Eq baper kalau telat dibales! 🥺', wrong: 'Waduh, jangan telat bales pesan Eq ya! 😅' },
+      { q: 'Apa kebiasaan aneh yang cuma Eq yang punya?', a: 'a', options: ['Ngomong sama kucing', 'Lupa nama temen', 'Nonton drama sampe pagi'], correct: 'Haha, Eq emang suka ngobrol sama kucing! 😺', wrong: 'Hmm, coba perhatiin Eq lagi ya! 😄' },
+    ];
+    let currentQuestion = 0;
+    function answerQuiz(index, choice) {
+      const result = document.getElementById('quiz-result');
+      const sticker = document.getElementById('sticker');
+      if (choice === questions[index].a) {
+        result.textContent = questions[index].correct + ' You’re officially Eq’s #1 fan! 🏆';
+        sticker.classList.remove('hidden');
+        confetti({ particleCount: 50, spread: 50 });
+      } else {
+        result.textContent = questions[index].wrong;
+        sticker.classList.add('hidden');
+      }
+      currentQuestion = (index + 1) % questions.length;
+      setTimeout(() => {
+        document.getElementById('quiz-question').textContent = questions[currentQuestion].q;
+        const buttons = document.querySelectorAll('.flex button');
+        buttons.forEach((btn, i) => {
+          btn.textContent = questions[currentQuestion].options[i];
+          btn.onclick = () => answerQuiz(currentQuestion, String.fromCharCode(97 + i));
+        });
+        result.textContent = '';
+        sticker.classList.add('hidden');
+      }, 2000);
+    }
+
+    // Gift popup
+    function showGift() {
+      document.getElementById('gift').classList.remove('hidden');
+      gsap.fromTo('#gift > div', { opacity: 0, y: 50 }, { opacity: 1, y: 0, duration: 1 });
+      confetti({ particleCount: 150, spread: 100 });
+    }
+    function closeGift() {
+      document.getElementById('gift').classList.add('hidden');
+    }
+
+    // Mute toggle
+    const audio = document.getElementById('bg-music');
+    function toggleMute() {
+      audio.muted = !audio.muted;
+      document.querySelector('.mute-icon').textContent = audio.muted ? '🔇' : '🔊';
+    }
+
+    // Dark mode toggle
+    const toggleDarkMode = () => document.body.classList.toggle('dark-mode');
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+      if (e.matches) document.body.classList.add('dark-mode');
+      else document.body.classList.remove('dark-mode');
+    });
+    if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      document.body.classList.add('dark-mode');
+    }
+
+    // Emoji interaction
+    document.querySelectorAll('.emoji').forEach(emoji => {
+      emoji.addEventListener('click', () => {
+        confetti({ particleCount: 20, spread: 50 });
+      });
+    });
+
+    // Scroll reveal animations
+    gsap.registerPlugin(ScrollTrigger);
+    gsap.utils.toArray('section').forEach(section => {
+      gsap.from(section, {
+        opacity: 0,
+        y: 50,
+        duration: 1,
+        scrollTrigger: {
+          trigger: section,
+          start: 'top 80%',
+          toggleActions: 'play none none reverse',
+        },
+      });
+    });
+    gsap.from('.hero h1', { opacity: 0, y: -50, duration: 1.5 });
+    gsap.from('.hero p', { opacity: 0, y: 50, duration: 1.5, delay: 0.5 });
+  </script>
+</body>
+</html>
